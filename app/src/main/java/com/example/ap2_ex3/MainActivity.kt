@@ -1,23 +1,29 @@
 package com.example.ap2_ex3
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.SeekBar
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Exception
 import java.text.DecimalFormat
 
 class MainActivity : AppCompatActivity() {
 
-    var throttleVal = 0;
-    var rudderVal = 0;
-    var viewModel = ViewModel();
+    private var throttleVal = 0;
+    private var rudderVal = 0;
+    private lateinit var viewModel : ViewModel;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         ipField.setOnClickListener{
             if (ipField.getText().toString() == "enter here the IP") {
@@ -32,7 +38,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         submitBTN.setOnClickListener {
-            println(portField.getText().toString() + ipField.getText().toString());
+            try {
+                var port = portField.text.toString().toInt()
+                viewModel = ViewModel(ipField.text.toString(), port)
+            } catch (e : Exception) {
+                //make toast!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                Log.d("error", "port isn't a number ")
+            }
         }
 
         throttleSeekBar?.setOnSeekBarChangeListener(object :
@@ -40,8 +52,10 @@ class MainActivity : AppCompatActivity() {
             override fun onProgressChanged(seek: SeekBar, progress: Int, fromUser: Boolean) {
                 var temp = progress.toDouble();
                 temp /= 100;
-                viewModel.setVM_throttle(temp);
                 throttle.setText("throttle: " + String.format("%.2f", temp));
+                if (::viewModel.isInitialized) {
+                    viewModel.setVM_throttle(temp);
+                }
             }
 
             override fun onStartTrackingTouch(seek: SeekBar) {}
@@ -55,7 +69,9 @@ class MainActivity : AppCompatActivity() {
                 var temp = progress.toDouble();
                 temp -= 50;
                 temp = temp/50;
-                viewModel.setVM_rudder(temp);
+                if (::viewModel.isInitialized) {
+                    viewModel.setVM_rudder(temp);
+                }
                 rudder.setText("rudder: " + String.format("%.2f", temp));
             }
 

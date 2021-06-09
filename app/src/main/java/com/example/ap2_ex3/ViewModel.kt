@@ -1,7 +1,12 @@
 package com.example.ap2_ex3
 
-class ViewModel {
-    private var model = Model()
+import android.util.Log
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import androidx.databinding.Observable
+
+class ViewModel(ip : String, port : Int)   {
+    private var model = Model(ip, port)
 
     fun setVM_throttle(throttle : Double) {
         this.model.setThrottle(throttle)
@@ -17,5 +22,11 @@ class ViewModel {
 
     fun getVM_rudder() : Double{
         return model.getRudder()
+    }
+    fun setVM_throttleInt(throttle : Int) {
+        this.model.setThrottle(throttle/100.0)
+    }
+    fun getVM_throttleInt() : Int {
+        return (model.getThrottle() * 100).toInt()
     }
 }

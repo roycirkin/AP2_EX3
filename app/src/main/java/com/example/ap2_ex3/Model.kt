@@ -6,9 +6,9 @@ import java.util.concurrent.LinkedBlockingQueue
 import java.io.PrintWriter
 import java.lang.Exception
 
-class Model {
+class Model (ip : String, port : Int){
 
-    private var throttle = 0.0;
+    private var throttle = 0.5;
     private var rudder = 0.0;
     private var stop = false;
     private final var BlockingQueue = LinkedBlockingQueue<Runnable>();
@@ -17,7 +17,7 @@ class Model {
     init {
         Thread(Runnable {
             try {
-                val fg = Socket("10.0.2.2", 8000);
+                val fg = Socket(ip, port);
                 this.outStream = PrintWriter(fg.getOutputStream(), true);
             } catch (e: Exception) {
                 Log.d("exe", e.message.toString());
@@ -55,6 +55,7 @@ class Model {
     fun getRudder() : Double{
         return  this.rudder;
     }
+
     fun stop() : Unit{
         BlockingQueue.put(object : Runnable {
             override fun run() {
