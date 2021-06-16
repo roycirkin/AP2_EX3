@@ -191,7 +191,10 @@
         app:layout_constraintEnd_toEndOf="@id/guideline4"
         app:layout_constraintBottom_toBottomOf="@id/guideline6"    />
 
-
+    <com.example.ap2_ex3.JoyStick
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        tools:ignore="MissingConstraints"></com.example.ap2_ex3.JoyStick>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout >

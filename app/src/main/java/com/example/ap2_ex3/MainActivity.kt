@@ -1,25 +1,20 @@
 package com.example.ap2_ex3
 
-import android.os.Build
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
+import android.view.MotionEvent
 import android.widget.SeekBar
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
-import java.text.DecimalFormat
 
 class MainActivity : AppCompatActivity() {
 
     private var throttleVal = 0;
     private var rudderVal = 0;
     private lateinit var viewModel : ViewModel;
-
+    private var joyStick = JoyStick(this, 1.toFloat(), 1.toFloat(), 1.toFloat(), 1.toFloat(), 1, 1)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -87,7 +82,36 @@ class MainActivity : AppCompatActivity() {
         progressRudder -= 50;
         progressRudder = progressRudder/50;
         rudder.setText("rudder: " + String.format("%.2f", progressRudder));
+
+        joyStick.onChange = AileronElevatorJoystickOnChange(1.toFloat(), (-1).toFloat(), 1.toFloat(), (-1).toFloat(), viewModel)
     }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        //return super.onTouchEvent(event)
+        if (event != null) {
+            when(event.action){
+                MotionEvent.ACTION_DOWN -> {
+                    if(joyStick.isPressed(event.getX().toFloat(), event.getY().toFloat())){
+                        joyStick.setIsPressed(true);
+                    }
+                    return true
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    if(joyStick.getIsPressed()){
+                        joyStick.setRelativeMoves(event.getX().toFloat(), event.getY().toFloat())
+                    }
+                    return true
+                }
+                MotionEvent.ACTION_UP -> {
+                    joyStick.setIsPressed(false)
+                    joyStick.resetRelativeMoves()
+                    return true
+                }
+            }
+        }
+        return true
+    }
+
 
     };
 

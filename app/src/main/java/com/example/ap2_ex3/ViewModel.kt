@@ -23,6 +23,23 @@ class ViewModel(ip : String, port : Int)   {
     fun getVM_rudder() : Double{
         return model.getRudder()
     }
+
+    fun setVM_aileron(aileron:Double){
+        model.setAileron(aileron)
+    }
+
+    fun getVM_aileron():Double {
+        return model.getAileron()
+    }
+
+    fun setVM_elevator(elevator:Double){
+        model.setElevator(elevator)
+    }
+
+    fun getVM_elevator():Double {
+        return model.getElevator()
+    }
+
     fun setVM_throttleInt(throttle : Int) {
         this.model.setThrottle(throttle/100.0)
     }
