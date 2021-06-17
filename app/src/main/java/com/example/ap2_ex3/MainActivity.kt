@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 var port = portField.text.toString().toInt()
                 viewModel = ViewModel(ipField.text.toString(), port)
-                joystick.onChange = AileronElevatorJoystickOnChange(1.toFloat(), (-1).toFloat(), 1.toFloat(), (-1).toFloat(), viewModel)
+                joystick.onChange = AileronElevatorJoystickOnChange(viewModel)
             } catch (e : Exception) {
                 //make toast!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 Log.d("error", "port isn't a number ")
@@ -95,7 +95,5 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
-
     };
 

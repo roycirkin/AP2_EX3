@@ -36,22 +36,38 @@ class JoyStick @JvmOverloads constructor(
     var onChange:OnJoystickChange? = null
     var isPositionSet:Boolean = false
 
-    init {
-        println("width = " + this.getWidth())
-    }
+    /**
+     * The function return true if the joystick is pressed, otherwise return false
+     * coorX - coordinate x  of the press
+     * coorY - coordinate y  of the press
+     * ret - return true if the joystick is pressed, otherwise return false
+     */
     fun isPressed(coorX:Float, coorY:Float):Boolean {
         val joystickTouchDistance = Math.sqrt(Math.pow((coorX - centerOuterCircleX).toDouble(), 2.0) + Math.pow((coorY - centerOuterCircleY).toDouble(), 2.0))
         return joystickTouchDistance < outerCircleRadius
     }
 
+    /**
+     * The function set isJoystickPressed
+     * isJoystickPressed - if joystick pressed
+     */
     fun setIsPressed(isJoystickPressed:Boolean){
         this.isJoystickPressed = isJoystickPressed
     }
 
+    /**
+     * The function return isJoystickPressed
+     * ret - if joystick pressed
+     */
     fun getIsPressed():Boolean {
         return isJoystickPressed
     }
 
+    /**
+     * The function update the joystick position, and activate  updateEvent function of onChange according pressed coordinates
+     * coorX - coordinate x  of the press
+     * coorY - coordinate y  of the press
+     */
     fun setRelativeMoves(coorX:Float, coorY:Float){
         var distanceX = coorX - centerOuterCircleX
         var distanceY = coorY - centerOuterCircleY
@@ -69,12 +85,18 @@ class JoyStick @JvmOverloads constructor(
         onChange?.updateEvent(relativeMoveX, relativeMoveY)
     }
 
+    /**
+     * The function update inner circle of joystick position, according relative moves
+     */
     fun update(){
         centerInnerCircleX = centerOuterCircleX + relativeMoveX * outerCircleRadius
         centerInnerCircleY = centerOuterCircleY + relativeMoveY * outerCircleRadius
         postInvalidate()
     }
 
+    /**
+     * The function reset relative moves
+     */
     fun resetRelativeMoves(){
         relativeMoveX = 0.toFloat()
         relativeMoveY = 0.toFloat()
@@ -83,6 +105,9 @@ class JoyStick @JvmOverloads constructor(
         onChange?.updateEvent(relativeMoveX, relativeMoveY)
     }
 
+    /**
+     * The function set starting position of joystick
+     */
     fun setPositions(){
         centerInnerCircleX =  (this.getWidth() / 2).toFloat()
         centerInnerCircleY = (this.getHeight() / 2).toFloat()
@@ -90,6 +115,11 @@ class JoyStick @JvmOverloads constructor(
         centerOuterCircleY = (this.getHeight() / 2).toFloat()
     }
 
+    /**
+     * The function handle with joystick press
+     * event - press event that happened on the screen
+     * ret - true
+     */
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event != null) {
             when(event.action){
@@ -116,6 +146,9 @@ class JoyStick @JvmOverloads constructor(
         return true
     }
 
+    /**
+     * The function draw the joystick in canvas
+     */
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         if(!isPositionSet)

@@ -50,6 +50,10 @@ class Model (ip : String, port : Int){
         });
     }
 
+    /**
+     * The function update aileron value
+     * aileronVal - aileron value
+     */
     fun setAileron(aileronVal : Double) : Unit {
         BlockingQueue.put(object : Runnable {
             override fun run() {
@@ -60,6 +64,10 @@ class Model (ip : String, port : Int){
         });
     }
 
+    /**
+     * The function update elevator value
+     * aileronVal - elevator value
+     */
     fun setElevator(elevatorVal : Double) : Unit {
         BlockingQueue.put(object : Runnable {
             override fun run() {
@@ -78,10 +86,18 @@ class Model (ip : String, port : Int){
         return  this.rudder;
     }
 
+    /**
+     * The function return aileron value
+     * ret - aileron value
+     */
     fun getAileron():Double {
         return aileron
     }
 
+    /**
+     * The function return elevator value
+     * ret - elevator value
+     */
     fun getElevator():Double {
         return elevator
     }

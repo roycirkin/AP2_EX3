@@ -24,6 +24,10 @@ class ViewModel(ip : String, port : Int)   {
         return model.getRudder()
     }
 
+    /**
+     * The function send to the model new aileron value
+     * aileron - aileron value
+     */
     fun setVM_aileron(aileron:Double){
         model.setAileron(aileron)
     }
@@ -32,6 +36,10 @@ class ViewModel(ip : String, port : Int)   {
         return model.getAileron()
     }
 
+    /**
+     * The function send to the model new elevator value
+     * elevator - elevator value
+     */
     fun setVM_elevator(elevator:Double){
         model.setElevator(elevator)
     }
