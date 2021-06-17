@@ -90,10 +90,10 @@ class MainActivity : AppCompatActivity() {
         //joyStick.centerInnerCircleY = 350.toFloat()//this.getResources().getDisplayMetrics().heightPixels.toFloat() / 2
         //joyStick.centerOuterCircleY = 350.toFloat()//this.getResources().getDisplayMetrics().heightPixels.toFloat() / 2
 
-        joyStick.outerCircleRadius = 250.toFloat()
+        joyStick.outerCircleRadius = 300.toFloat()
         joyStick.innerCircleRadius = 100.toFloat()
 
-        joyStick.innerCircleColor = Color.BLUE
+        joyStick.innerCircleColor = Color.BLACK
         joyStick.outerCircleColor = Color.RED
 
         //joystick.onChange = AileronElevatorJoystickOnChange(1.toFloat(), (-1).toFloat(), 1.toFloat(), (-1).toFloat(), viewModel)
