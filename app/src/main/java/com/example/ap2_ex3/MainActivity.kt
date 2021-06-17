@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 var port = portField.text.toString().toInt()
                 viewModel = ViewModel(ipField.text.toString(), port)
+                joystick.onChange = AileronElevatorJoystickOnChange(1.toFloat(), (-1).toFloat(), 1.toFloat(), (-1).toFloat(), viewModel)
             } catch (e : Exception) {
                 //make toast!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 Log.d("error", "port isn't a number ")
@@ -85,10 +86,6 @@ class MainActivity : AppCompatActivity() {
 
 
         joyStick = findViewById(R.id.joystick)
-      //  joyStick.centerInnerCircleX = 350.toFloat()//this.getResources().getDisplayMetrics().widthPixels.toFloat() / 2
-        //joyStick.centerOuterCircleX = 350.toFloat()//this.getResources().getDisplayMetrics().widthPixels.toFloat() / 2
-        //joyStick.centerInnerCircleY = 350.toFloat()//this.getResources().getDisplayMetrics().heightPixels.toFloat() / 2
-        //joyStick.centerOuterCircleY = 350.toFloat()//this.getResources().getDisplayMetrics().heightPixels.toFloat() / 2
 
         joyStick.outerCircleRadius = 300.toFloat()
         joyStick.innerCircleRadius = 100.toFloat()
@@ -96,7 +93,7 @@ class MainActivity : AppCompatActivity() {
         joyStick.innerCircleColor = Color.BLACK
         joyStick.outerCircleColor = Color.RED
 
-        //joystick.onChange = AileronElevatorJoystickOnChange(1.toFloat(), (-1).toFloat(), 1.toFloat(), (-1).toFloat(), viewModel)
+
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.ap2_ex3
 
+import android.util.Log
 import kotlin.math.abs
 
 class AileronElevatorJoystickOnChange(_maxAileron:Float, _minAileron:Float, _maxElevator:Float, _minElevator:Float, _viewModel:ViewModel) : OnJoystickChange {
@@ -8,7 +9,7 @@ class AileronElevatorJoystickOnChange(_maxAileron:Float, _minAileron:Float, _max
     private val viewModel:ViewModel = _viewModel
 
     override fun updateEvent(relativeMoveX:Float, relativeMoveY:Float) {
-        viewModel.setVM_aileron((averageAileron + abs(averageAileron) * relativeMoveX).toDouble())
-        viewModel.setVM_aileron((averageElevator + abs(averageElevator) * relativeMoveY).toDouble())
+        viewModel.setVM_aileron(relativeMoveX.toDouble())
+        viewModel.setVM_elevator(relativeMoveY.toDouble())
     }
 }
