@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     private var throttleVal = 0;
     private var rudderVal = 0;
     private lateinit var viewModel : ViewModel;
-    private var joyStick = JoyStick(this, 1.toFloat(), 1.toFloat(), 1.toFloat(), 1.toFloat(), 1, 1)
+    private lateinit var joyStick: JoyStick
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -83,33 +83,20 @@ class MainActivity : AppCompatActivity() {
         progressRudder = progressRudder/50;
         rudder.setText("rudder: " + String.format("%.2f", progressRudder));
 
-        joyStick.onChange = AileronElevatorJoystickOnChange(1.toFloat(), (-1).toFloat(), 1.toFloat(), (-1).toFloat(), viewModel)
-    }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        //return super.onTouchEvent(event)
-        if (event != null) {
-            when(event.action){
-                MotionEvent.ACTION_DOWN -> {
-                    if(joyStick.isPressed(event.getX().toFloat(), event.getY().toFloat())){
-                        joyStick.setIsPressed(true);
-                    }
-                    return true
-                }
-                MotionEvent.ACTION_MOVE -> {
-                    if(joyStick.getIsPressed()){
-                        joyStick.setRelativeMoves(event.getX().toFloat(), event.getY().toFloat())
-                    }
-                    return true
-                }
-                MotionEvent.ACTION_UP -> {
-                    joyStick.setIsPressed(false)
-                    joyStick.resetRelativeMoves()
-                    return true
-                }
-            }
-        }
-        return true
+        joyStick = findViewById(R.id.joystick)
+      //  joyStick.centerInnerCircleX = 350.toFloat()//this.getResources().getDisplayMetrics().widthPixels.toFloat() / 2
+        //joyStick.centerOuterCircleX = 350.toFloat()//this.getResources().getDisplayMetrics().widthPixels.toFloat() / 2
+        //joyStick.centerInnerCircleY = 350.toFloat()//this.getResources().getDisplayMetrics().heightPixels.toFloat() / 2
+        //joyStick.centerOuterCircleY = 350.toFloat()//this.getResources().getDisplayMetrics().heightPixels.toFloat() / 2
+
+        joyStick.outerCircleRadius = 250.toFloat()
+        joyStick.innerCircleRadius = 100.toFloat()
+
+        joyStick.innerCircleColor = Color.BLUE
+        joyStick.outerCircleColor = Color.RED
+
+        //joystick.onChange = AileronElevatorJoystickOnChange(1.toFloat(), (-1).toFloat(), 1.toFloat(), (-1).toFloat(), viewModel)
     }
 
 

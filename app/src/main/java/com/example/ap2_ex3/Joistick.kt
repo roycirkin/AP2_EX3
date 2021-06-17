@@ -3,43 +3,42 @@ package com.example.ap2_ex3
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
-import kotlin.math.sqrt
 
-class JoyStick(_context: Context, _centerJoistickX: Float, _centerJoistickY:Float, _innerCircleRadius:Float, _outerCircleRadius:Float, _innerCircleColor:Int, _outerCircleColor:Int) : View(_context) {
-    private var centerInnerCircleX:Float
-    private var centerInnerCircleY:Float
-    private var centerOuterCircleX:Float
-    private var centerOuterCircleY:Float
-    private var innerCircleRadius:Float
-    private var outerCircleRadius:Float
-    private var innerCirclePaint:Paint
-    private var outerCirclePaint:Paint
-    private var isJoystickPressed:Boolean
-    private var relativeMoveX:Float = 0.toFloat()
-    private var relativeMoveY:Float = 0.toFloat()
+class JoyStick @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr) {
+    var centerInnerCircleX:Float =  0.toFloat()
+    var centerInnerCircleY:Float = 0.toFloat()
+    var centerOuterCircleX:Float =  0.toFloat()
+    var centerOuterCircleY:Float = 0.toFloat()
+    var innerCircleRadius:Float =  0.toFloat()
+    var outerCircleRadius:Float =  0.toFloat()
+    private var innerCirclePaint:Paint = Paint()
+    private var outerCirclePaint:Paint = Paint()
+    var innerCircleColor:Int = 0
+        set(value){
+            field = value
+            innerCirclePaint.color = value
+        }
+    var outerCircleColor:Int = 0
+        set(value){
+            field = value
+            innerCirclePaint.color = value
+        }
+    var isJoystickPressed:Boolean = false
+    var relativeMoveX:Float = 0.toFloat()
+    var relativeMoveY:Float = 0.toFloat()
     var onChange:OnJoystickChange? = null
+    var isPositionSet:Boolean = false
 
-    init{
-        centerInnerCircleX = _centerJoistickX
-        centerInnerCircleY = _centerJoistickY
-        centerOuterCircleX = _centerJoistickX
-        centerOuterCircleY = _centerJoistickY
-
-        innerCircleRadius = _innerCircleRadius
-        outerCircleRadius = _outerCircleRadius
-
-        innerCirclePaint = Paint()
-        innerCirclePaint.color = _innerCircleColor
-        innerCirclePaint.style = Paint.Style.FILL_AND_STROKE
-
-        outerCirclePaint = Paint()
-        outerCirclePaint.color = _outerCircleColor
-        outerCirclePaint.style = Paint.Style.FILL_AND_STROKE
-
-        isJoystickPressed = false
+    init {
+        println("width = " + this.getWidth())
     }
-
     fun isPressed(coorX:Float, coorY:Float):Boolean {
         val joystickTouchDistance = Math.sqrt(Math.pow((coorX - centerOuterCircleX).toDouble(), 2.0) + Math.pow((coorY - centerOuterCircleY).toDouble(), 2.0))
         return joystickTouchDistance < outerCircleRadius
@@ -79,10 +78,51 @@ class JoyStick(_context: Context, _centerJoistickX: Float, _centerJoistickY:Floa
     fun resetRelativeMoves(){
         relativeMoveX = 0.toFloat()
         relativeMoveY = 0.toFloat()
+
+        update()
+        onChange?.updateEvent(relativeMoveX, relativeMoveY)
+    }
+
+    fun setPositions(){
+        centerInnerCircleX =  (this.getWidth() / 2).toFloat()
+        centerInnerCircleY = (this.getHeight() / 2).toFloat()
+        centerOuterCircleX =  (this.getWidth() / 2).toFloat()
+        centerOuterCircleY = (this.getHeight() / 2).toFloat()
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if (event != null) {
+            when(event.action){
+                MotionEvent.ACTION_DOWN -> {
+                    if(isPressed(event.getX().toFloat(), event.getY().toFloat())){
+                        setIsPressed(true);
+                    }
+                    setPositions()
+                    return true
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    if(getIsPressed()){
+                        setRelativeMoves(event.getX().toFloat(), event.getY().toFloat())
+                    }
+                    return true
+                }
+                MotionEvent.ACTION_UP -> {
+                    setIsPressed(false)
+                    resetRelativeMoves()
+                    return true
+                }
+            }
+        }
+        return true
     }
 
     override fun onDraw(canvas: Canvas?) {
-        //super.onDraw(canvas)
+        super.onDraw(canvas)
+        if(!isPositionSet)
+        {
+            setPositions()
+            isPositionSet = true
+        }
         if (canvas != null) {
             canvas.drawCircle(centerOuterCircleX, centerOuterCircleY, outerCircleRadius, outerCirclePaint)
         }
