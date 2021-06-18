@@ -28,7 +28,7 @@ class JoyStick @JvmOverloads constructor(
     var outerCircleColor:Int = 0
         set(value){
             field = value
-            innerCirclePaint.color = value
+            outerCirclePaint.color = value
         }
     var isJoystickPressed:Boolean = false
     var relativeMoveX:Float = 0.toFloat()

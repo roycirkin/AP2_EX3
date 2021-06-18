@@ -15,7 +15,9 @@ class Model (ip : String, port : Int){
     private var stop = false;
     private final var BlockingQueue = LinkedBlockingQueue<Runnable>();
     private lateinit var outStream : PrintWriter;
-
+    /**
+     * initializing the model, conecting to the flgiht gear if possible and starting the active object's thread
+     */
     init {
         Thread(Runnable {
             try {
@@ -29,7 +31,10 @@ class Model (ip : String, port : Int){
             }
         }).start();
     }
-
+    /**
+     * setting the new throttle value, and inserting the queue a new runnable which updates the flight gear
+     * throttleVal - the current value
+     */
     fun setThrottle(throttleVal : Double) : Unit {
         BlockingQueue.put(object : Runnable {
             override fun run() {
@@ -39,7 +44,10 @@ class Model (ip : String, port : Int){
             }
         });
     }
-
+    /**
+     * setting the new rudder value, and inserting the queue a new runnable which updates the flight gear
+     * rudderVal - the current value
+     */
     fun setRudder(rudderVal : Double) : Unit {
         BlockingQueue.put(object : Runnable {
             override fun run() {

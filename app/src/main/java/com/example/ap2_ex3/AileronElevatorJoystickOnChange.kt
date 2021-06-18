@@ -5,8 +5,8 @@ class AileronElevatorJoystickOnChange(_viewModel:ViewModel) : OnJoystickChange {
 
     /**
      * The function update the aileron and elevator fields
-     * relativeMoveX - value form -1 to 1 that which describes the change that will take place in aileron
-     * relativeMoveY - value form -1 to 1 that which describes the change that will take place in elevator
+     * relativeMoveX - value form -1 to 1 that  describes the change that will take place in aileron
+     * relativeMoveY - value form -1 to 1 that  describes the change that will take place in elevator
      */
     override fun updateEvent(relativeMoveX:Float, relativeMoveY:Float) {
         viewModel.setVM_aileron(relativeMoveX.toDouble())
