@@ -8,28 +8,28 @@ import java.lang.Exception
 
 class Model (ip : String, port : Int){
 
-    private var throttle = 0.5;
-    private var rudder = 0.0;
+    private var throttle = 0.5
+    private var rudder = 0.0
     private var aileron = 0.0
     private var elevator = 0.0
-    private var stop = false;
-    private final var BlockingQueue = LinkedBlockingQueue<Runnable>();
-    private lateinit var outStream : PrintWriter;
+    private var stop = false
+    private final var BlockingQueue = LinkedBlockingQueue<Runnable>()
+    private lateinit var outStream : PrintWriter
     /**
      * initializing the model, conecting to the flgiht gear if possible and starting the active object's thread
      */
     init {
         Thread(Runnable {
             try {
-                val fg = Socket(ip, port);
-                this.outStream = PrintWriter(fg.getOutputStream(), true);
+                val fg = Socket(ip, port)
+                this.outStream = PrintWriter(fg.getOutputStream(), true)
             } catch (e: Exception) {
-                Log.d("exe", e.message.toString());
+                Log.d("exe", e.message.toString())
             }
             while (!stop) {
-                this.BlockingQueue.take().run();
+                this.BlockingQueue.take().run()
             }
-        }).start();
+        }).start()
     }
     /**
      * setting the new throttle value, and inserting the queue a new runnable which updates the flight gear
@@ -38,11 +38,11 @@ class Model (ip : String, port : Int){
     fun setThrottle(throttleVal : Double) : Unit {
         BlockingQueue.put(object : Runnable {
             override fun run() {
-                throttle = throttleVal;
-                outStream.print("set /controls/engines/current-engine/throttle "+throttle+"\r\n");
-                outStream.flush();
+                throttle = throttleVal
+                outStream.print("set /controls/engines/current-engine/throttle "+throttle+"\r\n")
+                outStream.flush()
             }
-        });
+        })
     }
     /**
      * setting the new rudder value, and inserting the queue a new runnable which updates the flight gear
@@ -51,11 +51,11 @@ class Model (ip : String, port : Int){
     fun setRudder(rudderVal : Double) : Unit {
         BlockingQueue.put(object : Runnable {
             override fun run() {
-                rudder = rudderVal;
-                outStream.print("set /controls/flight/rudder "+rudder+"\r\n");
-                outStream.flush();
+                rudder = rudderVal
+                outStream.print("set /controls/flight/rudder "+rudder+"\r\n")
+                outStream.flush()
             }
-        });
+        })
     }
 
     /**
@@ -65,11 +65,11 @@ class Model (ip : String, port : Int){
     fun setAileron(aileronVal : Double) : Unit {
         BlockingQueue.put(object : Runnable {
             override fun run() {
-                aileron = aileronVal;
-                outStream.print("set /controls/flight/aileron "+aileron+"\r\n");
-                outStream.flush();
+                aileron = aileronVal
+                outStream.print("set /controls/flight/aileron "+aileron+"\r\n")
+                outStream.flush()
             }
-        });
+        })
     }
 
     /**
@@ -79,19 +79,19 @@ class Model (ip : String, port : Int){
     fun setElevator(elevatorVal : Double) : Unit {
         BlockingQueue.put(object : Runnable {
             override fun run() {
-                elevator = elevatorVal;
-                outStream.print("set /controls/flight/elevator "+elevator+"\r\n");
-                outStream.flush();
+                elevator = elevatorVal
+                outStream.print("set /controls/flight/elevator "+elevator+"\r\n")
+                outStream.flush()
             }
-        });
+        })
     }
 
     fun getThrottle() : Double{
-        return  this.throttle;
+        return  this.throttle
     }
 
     fun getRudder() : Double{
-        return  this.rudder;
+        return  this.rudder
     }
 
     /**
@@ -113,8 +113,8 @@ class Model (ip : String, port : Int){
     fun stop() : Unit{
         BlockingQueue.put(object : Runnable {
             override fun run() {
-                stop = true;
+                stop = true
             }
-        });
+        })
     }
 }

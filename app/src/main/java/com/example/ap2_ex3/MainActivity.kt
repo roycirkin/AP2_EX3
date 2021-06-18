@@ -13,9 +13,9 @@ import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
-    private var throttleVal = 0;
-    private var rudderVal = 0;
-    private lateinit var viewModel : ViewModel;
+    private var throttleVal = 0
+    private var rudderVal = 0
+    private lateinit var viewModel : ViewModel
     private lateinit var joyStick: JoyStick
     @SuppressLint("WrongConstant")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,13 +25,13 @@ class MainActivity : AppCompatActivity() {
 
         ipField.setOnClickListener{
             if (ipField.getText().toString() == "enter here the IP") {
-                ipField.getText().clear();
+                ipField.getText().clear()
             }
         }
 
         portField.setOnClickListener{
             if (portField.getText().toString() == "enter here the port") {
-                portField.getText().clear();
+                portField.getText().clear()
             }
         }
          /**
@@ -56,11 +56,11 @@ class MainActivity : AppCompatActivity() {
              * progress - the new value from 0 to 100
              */
             override fun onProgressChanged(seek: SeekBar, progress: Int, fromUser: Boolean) {
-                var temp = progress.toDouble();
-                temp /= 100;
-                throttle.setText("throttle: " + String.format("%.2f", temp));
+                var temp = progress.toDouble()
+                temp /= 100
+                throttle.setText("throttle: " + String.format("%.2f", temp))
                 if (::viewModel.isInitialized) {
-                    viewModel.setVM_throttle(temp);
+                    viewModel.setVM_throttle(temp)
                 }
             }
 
@@ -77,13 +77,13 @@ class MainActivity : AppCompatActivity() {
              * progress - the new value from 0 to 100
              */
             override fun onProgressChanged(seek: SeekBar, progress: Int, fromUser: Boolean) {
-                var temp = progress.toDouble();
-                temp -= 50;
-                temp = temp/50;
+                var temp = progress.toDouble()
+                temp -= 50
+                temp = temp/50
                 if (::viewModel.isInitialized) {
-                    viewModel.setVM_rudder(temp);
+                    viewModel.setVM_rudder(temp)
                 }
-                rudder.setText("rudder: " + String.format("%.2f", temp));
+                rudder.setText("rudder: " + String.format("%.2f", temp))
             }
 
             override fun onStartTrackingTouch(seek: SeekBar) {}
@@ -91,13 +91,13 @@ class MainActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seek: SeekBar) {}
         })
         //setting the text fields with the default rudder and throttle values
-        var progressThrottle  = throttleSeekBar.getProgress().toDouble();
-        progressThrottle = progressThrottle/100;
-        throttle.setText("throttle: " + String.format("%.2f", progressThrottle));
-        var progressRudder  = rudderSeekBar.getProgress().toDouble();
-        progressRudder -= 50;
-        progressRudder = progressRudder/50;
-        rudder.setText("rudder: " + String.format("%.2f", progressRudder));
+        var progressThrottle  = throttleSeekBar.getProgress().toDouble()
+        progressThrottle = progressThrottle/100
+        throttle.setText("throttle: " + String.format("%.2f", progressThrottle))
+        var progressRudder  = rudderSeekBar.getProgress().toDouble()
+        progressRudder -= 50
+        progressRudder = progressRudder/50
+        rudder.setText("rudder: " + String.format("%.2f", progressRudder))
 
 
         joyStick = findViewById(R.id.joystick)
@@ -110,5 +110,5 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-    };
+    }
 
