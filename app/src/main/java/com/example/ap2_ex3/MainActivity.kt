@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         ipField.setOnClickListener{
             if (ipField.getText().toString() == "enter here the IP") {
                 ipField.getText().clear()
@@ -43,8 +42,8 @@ class MainActivity : AppCompatActivity() {
                 viewModel = ViewModel(ipField.text.toString(), port)
                 joystick.onChange = AileronElevatorJoystickOnChange(viewModel)
             } catch (e : Exception) {
-                Toast.makeText(this,"cant connect to the flight gear", 3)
-                Log.d("error", "port isn't a number ")
+                val myToast = Toast.makeText(applicationContext,"cant connect to flight gear",Toast.LENGTH_SHORT)
+                myToast.show()
             }
         }
 
@@ -60,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                 temp /= 100
                 throttle.setText("throttle: " + String.format("%.2f", temp))
                 if (::viewModel.isInitialized) {
-                    viewModel.setVM_throttle(temp)
+                    viewModel.VM_Throttle = temp
                 }
             }
 
@@ -81,7 +80,7 @@ class MainActivity : AppCompatActivity() {
                 temp -= 50
                 temp = temp/50
                 if (::viewModel.isInitialized) {
-                    viewModel.setVM_rudder(temp)
+                    viewModel.VM_Rudder = temp
                 }
                 rudder.setText("rudder: " + String.format("%.2f", temp))
             }

@@ -9,7 +9,7 @@ class AileronElevatorJoystickOnChange(_viewModel:ViewModel) : OnJoystickChange {
      * relativeMoveY - value form -1 to 1 that  describes the change that will take place in elevator
      */
     override fun updateEvent(relativeMoveX:Float, relativeMoveY:Float) {
-        viewModel.setVM_aileron(relativeMoveX.toDouble())
-        viewModel.setVM_elevator(relativeMoveY.toDouble())
+        viewModel.VM_Aileron = relativeMoveX.toDouble()
+        viewModel.VM_Elevator = relativeMoveY.toDouble()
     }
 }
