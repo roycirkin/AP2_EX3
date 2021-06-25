@@ -80,7 +80,7 @@ class Model (ip : String, port : Int){
         BlockingQueue.put(object : Runnable {
             override fun run() {
                 elevator = elevatorVal
-                outStream.print("set /controls/flight/elevator "+elevator+"\r\n")
+                    outStream.print("set /controls/flight/elevator "+elevator+"\r\n")
                 outStream.flush()
             }
         })

@@ -1,18 +1,19 @@
 package com.example.ap2_ex3
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.MotionEvent
 import android.widget.SeekBar
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.example.ap2_ex3.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
-import java.lang.Exception
+
 
 class MainActivity : AppCompatActivity() {
-
     private var throttleVal = 0
     private var rudderVal = 0
     private lateinit var viewModel : ViewModel
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         throttleSeekBar?.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
              /**
-             * notifying the view model about the updated throttle
+             * databind the seekbar to the view model
              * SeekBar - the seek bar
              * progress - the new value from 0 to 100
              */
@@ -71,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         rudderSeekBar?.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             /**
-             * notifying the view model about the updated rudder
+             * databind the seekbar to the view model
              * SeekBar - the seek bar
              * progress - the new value from 0 to 100
              */
